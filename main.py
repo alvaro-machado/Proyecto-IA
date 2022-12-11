@@ -151,7 +151,8 @@ director = AgenteDirector()
 
 # Habilitar materias
 responsable.habilitar_materias(materias_habilitadas)
-# Crear un estudiante
+
+# Crear estudiantes
 estudiante1 = AgenteEstudiante(
     "Juan", "Ingeniería de Sistemas", 12345, 20, ["Fisica", "Programacion", "Calculo 1"])
 
