@@ -1,4 +1,4 @@
-import tensorflow as tf
+
 import time
 import random
 
@@ -22,8 +22,8 @@ class AgenteEstudiante(object):
         self.materias = materias
         self.matricula = matricula
         self.dinero = dinero
-        self.boleta = tf.Variable('', dtype=tf.string)
-        self.pagado = tf.Variable(False, dtype=tf.bool)
+        self.boleta = ''
+        self.pagado = False
 
     def solicitar_inscripcion(self):
 
@@ -44,13 +44,13 @@ class AgenteEstudiante(object):
             print('El monto pagado es menor al precio de la matrícula......')
             return
         if (estudiante.dinero == precio_matricula):
-            self.pagado.assign(True)
+            self.pagado = True
             total_atendidos.append(estudiante)
             time.sleep(random.randint(1, 2))
             print('Agente Estudiante: Pagando matricula.....')
 
         elif (estudiante.dinero > precio_matricula):
-            self.pagado.assign(True)
+            self.pagado = True
             total_atendidos.append(estudiante)
             time.sleep(random.randint(1, 2))
             print('Agente Estudiante: Pagando matricula.....')
@@ -63,6 +63,7 @@ class AgenteEstudiante(object):
         # Lógica para obtener la boleta de pago del estudiante
         time.sleep(random.randint(1, 2))
         print('Agente Estudiante: Obteniendo boleta de pago del estudiante ' + self.nombre)
+        print('Boleta: '+self.boleta)
 
         return self.boleta
 
@@ -70,11 +71,11 @@ class AgenteEstudiante(object):
 class AgenteCajero(object):
     def __init__(self):
         # Inicializar la variable de Tensorflow necesaria para el agente
-        self.boleta = tf.Variable(0.0, dtype=tf.float32)
+        self.boleta = 0.0
 
     def cobrar_matricula(self, estudiante):
         # Verificar que el estudiante haya realizado el pago
-        if not estudiante.pagado.numpy():
+        if not estudiante.pagado:
             time.sleep(random.randint(1, 2))
             print(
                 'Agente Cajero: El estudiante no ha realizado el pago de la matrícula.....')
@@ -83,22 +84,24 @@ class AgenteCajero(object):
         # Lógica para cobrar la matrícula y obtener la boleta del estudiante
         time.sleep(random.randint(1, 2))
         print('Agente Cajero: Recibiendo pago de matrícula del estudiante.....')
-        self.boleta.assign(estudiante.matricula)
+        estudiante.boleta = random.randint(10000, 99999)
+        self.boleta = estudiante.boleta
         time.sleep(random.randint(1, 2))
         print('Agente Cajero: Pago de matrícula recibido. Generando boleta de pago.....')
-        return self.boleta.numpy()
+        print('La boleta de pago es: '+str(self.boleta))
+        return self.boleta
 
 
 class AgenteResponsable(object):
     def __init__(self):
         # Inicializar la variable de Tensorflow necesaria para el agente
-        self.materias = tf.Variable([], dtype=tf.string, shape=(None,))
+        self.materias = []
 
     def habilitar_materias(self, materias):
         # Lógica para habilitar las materias seleccionadas
         time.sleep(random.randint(1, 2))
         print('Agente Responsable: Habilitando materias......')
-        self.materias.assign(materias)
+        self.materias
         # Imprimir materias
         time.sleep(random.randint(1, 2))
         print(materias)
@@ -109,7 +112,7 @@ class AgenteResponsable(object):
 class AgenteDirector(object):
     def __init__(self):
         # Inicializar las variables de Tensorflow necesarias para el agente
-        self.materias = tf.Variable([], dtype=tf.string, shape=(None,))
+        self.materias_inscritas_totales = []
 
     def inscribir_estudiante(self, estudiante):
         materias = estudiante.materias
@@ -117,7 +120,7 @@ class AgenteDirector(object):
         # Lógica para inscribir al estudiante en las materias seleccionadas
         # Verificar que el estudiante haya realizado el pago
 
-        if not estudiante.pagado.numpy():
+        if not estudiante.pagado:
             time.sleep(random.randint(1, 2))
             print(
                 'Agente Director: El estudiante no ha realizado el pago de la matrícula por lo tanto no puede inscribirse....')
@@ -128,7 +131,7 @@ class AgenteDirector(object):
             time.sleep(random.randint(1, 2))
             print('Agente Director: Inscribiendo al estudiante ' +
                   estudiante.nombre + ' en las materias seleccionadas.....')
-            self.materias.assign(materias)
+            self.materias_inscritas_totales.extend(materias)
             time.sleep(random.randint(1, 2))
             print('Agente Director: Inscripción del estudiante ' +
                   estudiante.nombre + ' completada con éxito en las materias:')
@@ -200,10 +203,7 @@ print('Se tardo ', (fin-inicio)/3, ' minutos en atender a ',
 En el caso de esta implementación, cada agente estudiante y cajero reacciona a las acciones realizadas por los otros agentes y realizan sus propias acciones en respuesta a esas acciones. Por ejemplo, cuando un agente cajero recibe un pago de matrícula de un agente estudiante, genera una boleta de pago inmediatamente en respuesta a esa acción. Sin embargo, los agentes no tienen un modelo interno del entorno y no tienen objetivos a largo plazo. '''
 
 
-# porque tensorflow es una herramienta adecuada para la implementacion de la solucion del problema
-''' En esta implementación se utiliza Tensorflow para crear y manipular variables que contienen información relevante para los agentes,  el atributo pagado en la clase AgenteEstudiante es una variable de Tensorflow que se actualiza cuando el método pagar() es llamado. Esto permite a los métodos de las clases acceder a valores actualizados de las variables y realizar operaciones matemáticas en ellas, como en el caso de la clase AgenteCajero cuando se asigna el valor de la matrícula del estudiante a la variable boleta utilizando Tensorflow. Esto permite que los agentes puedan acceder y modificar esta información de manera sencilla y eficiente en tiempo de ejecución.
-
-Los agentes utilizados en esta implementación son reactivos simples, ya que se basan en la información disponible en el momento y realizan acciones de manera inmediata en respuesta a esa información. '''
+'''Los agentes utilizados en esta implementación son reactivos simples, ya que se basan en la información disponible en el momento y realizan acciones de manera inmediata en respuesta a esa información. '''
 
 
 # se utilizo la libreria time para medir el tiempo de ejecucion del programa
