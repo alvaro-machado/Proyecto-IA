@@ -26,12 +26,13 @@ class AgenteEstudiante(object):
         self.pagado = False
 
     def solicitar_inscripcion(self):
-
+        if not self.pagado:
+            return
         materias = self.materias
         # Lógica para solicitar la inscripción del estudiante en las materias
         time.sleep(random.randint(1, 2))
         print('Agente Estudiante: '+self.nombre +
-              ' esta solicitando inscribirsea las materias.....')
+              ' esta solicitando inscribirse a las materias.....')
         time.sleep(random.randint(1, 2))
         print(materias)
 
@@ -54,18 +55,12 @@ class AgenteEstudiante(object):
             total_atendidos.append(estudiante)
             time.sleep(random.randint(1, 2))
             print('Agente Estudiante: Pagando matricula.....')
-            cambio = estudiante.dinero - precio_matricula
-            time.sleep(random.randint(1, 2))
-            print('Pago con billete de: '+str(estudiante.dinero) +
-                  ' su cambio es: ' + str(cambio))
 
     def obtener_boleta(self):
         # Lógica para obtener la boleta de pago del estudiante
         time.sleep(random.randint(1, 2))
         print('Agente Estudiante: Obteniendo boleta de pago del estudiante ' + self.nombre)
         print('Boleta: '+self.boleta)
-
-        return self.boleta
 
 
 class AgenteCajero(object):
@@ -86,6 +81,11 @@ class AgenteCajero(object):
         print('Agente Cajero: Recibiendo pago de matrícula del estudiante.....')
         estudiante.boleta = random.randint(10000, 99999)
         self.boleta = estudiante.boleta
+        cambio = estudiante.dinero - precio_matricula
+        time.sleep(random.randint(1, 2))
+        print('Agente Cajero:Pago con billete de: '+str(estudiante.dinero) +
+              ' su cambio es: ' + str(cambio))
+
         time.sleep(random.randint(1, 2))
         print('Agente Cajero: Pago de matrícula recibido. Generando boleta de pago.....')
         print('La boleta de pago es: '+str(self.boleta))
@@ -115,6 +115,8 @@ class AgenteDirector(object):
         self.materias_inscritas_totales = []
 
     def inscribir_estudiante(self, estudiante):
+        if not estudiante.pagado:
+            return
         materias = estudiante.materias
 
         # Lógica para inscribir al estudiante en las materias seleccionadas
