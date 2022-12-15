@@ -8,6 +8,7 @@ inicio = time.time()
 
 precio_matricula = 14
 total_atendidos = []
+tiempo = 0
 
 # Inicializar materias
 materias_habilitadas = ['Fisica', 'Programacion', 'Redes', 'Base de datos', 'Inteligencia Artificial',
@@ -16,7 +17,6 @@ materias_habilitadas = ['Fisica', 'Programacion', 'Redes', 'Base de datos', 'Int
 
 class AgenteEstudiante(object):
     def __init__(self, nombre, carrera, matricula, dinero, materias):
-
         self.nombre = nombre
         self.carrera = carrera
         self.materias = materias
@@ -26,6 +26,7 @@ class AgenteEstudiante(object):
         self.pagado = False
 
     def solicitar_inscripcion(self):
+        global tiempo
         if not self.pagado:
             return
         materias = self.materias
@@ -35,32 +36,45 @@ class AgenteEstudiante(object):
               ' esta solicitando inscribirse a las materias.....')
         time.sleep(random.randint(1, 2))
         print(materias)
+        tiempo += 5
+        print("tiempo transcurrido: ",tiempo)
 
     def pagar(self):
+        global tiempo
         # Lógica para realizar el pago de la matrícula por parte del estudiante
         time.sleep(random.randint(1, 2))
         print('Agente Estudiante: Realizando pago de matrícula.....')
         if (estudiante.dinero < precio_matricula):
             time.sleep(random.randint(1, 2))
             print('El monto pagado es menor al precio de la matrícula......')
+            tiempo += 2
+            print("tiempo transcurrido: ",tiempo)
             return
         if (estudiante.dinero == precio_matricula):
             self.pagado = True
             total_atendidos.append(estudiante)
             time.sleep(random.randint(1, 2))
             print('Agente Estudiante: Pagando matricula.....')
+            tiempo += 2
+            print("tiempo transcurrido: ",tiempo)
 
         elif (estudiante.dinero > precio_matricula):
             self.pagado = True
             total_atendidos.append(estudiante)
             time.sleep(random.randint(1, 2))
             print('Agente Estudiante: Pagando matricula.....')
+            tiempo += 2
+            print("tiempo transcurrido: ",tiempo)
+        
 
     def obtener_boleta(self):
+        global tiempo
         # Lógica para obtener la boleta de pago del estudiante
         time.sleep(random.randint(1, 2))
         print('Agente Estudiante: Obteniendo boleta de pago del estudiante ' + self.nombre)
         print('Boleta: '+self.boleta)
+        tiempo += 2
+        print("tiempo transcurrido: ",tiempo)
 
 
 class AgenteCajero(object):
@@ -69,6 +83,7 @@ class AgenteCajero(object):
         self.boleta = 0.0
 
     def cobrar_matricula(self, estudiante):
+        global tiempo
         # Verificar que el estudiante haya realizado el pago
         if not estudiante.pagado:
             time.sleep(random.randint(1, 2))
@@ -89,6 +104,8 @@ class AgenteCajero(object):
         time.sleep(random.randint(1, 2))
         print('Agente Cajero: Pago de matrícula recibido. Generando boleta de pago.....')
         print('La boleta de pago es: '+str(self.boleta))
+        tiempo += 8
+        print("tiempo transcurrido: ",tiempo)
         return self.boleta
 
 
@@ -98,6 +115,7 @@ class AgenteResponsable(object):
         self.materias = []
 
     def habilitar_materias(self, materias):
+        global tiempo
         # Lógica para habilitar las materias seleccionadas
 
         time.sleep(random.randint(1, 2))
@@ -108,7 +126,8 @@ class AgenteResponsable(object):
         print(materias)
         time.sleep(random.randint(1, 2))
         print('Agente Responsable: Materias habilitadas con éxito.....')
-
+        tiempo += 5
+        print("tiempo transcurrido: ",tiempo)
 
 class AgenteDirector(object):
     def __init__(self):
@@ -116,6 +135,7 @@ class AgenteDirector(object):
         self.materias_inscritas_totales = []
 
     def inscribir_estudiante(self, estudiante):
+        global tiempo
        # Verificar que el estudiante haya realizado el pago
         if not estudiante.pagado:
             time.sleep(random.randint(1, 2))
@@ -141,7 +161,8 @@ class AgenteDirector(object):
             time.sleep(random.randint(1, 2))
             print(
                 'Agente Director: Las materias seleccionadas no se encuentran habilitadas.....')
-
+        tiempo += 10
+        print("tiempo transcurrido: ",tiempo)
 
 # Interaccion de los agentes
 
@@ -194,5 +215,5 @@ print('Total recaudado: ' + str(total_atendidos.__len__()*precio_matricula))
 fin = time.time()
 
 # Tiempo de ejecucion total
-print('Se tardo ', (fin-inicio)/3, ' minutos en atender a ',
+print('Se tardo ', tiempo, ' minutos en atender a ',
       estudiantes.__len__(), ' estudiantes')
