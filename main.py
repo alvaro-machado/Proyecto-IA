@@ -16,7 +16,7 @@ materias_habilitadas = ['Fisica', 'Programacion', 'Redes', 'Base de datos', 'Int
 
 class AgenteEstudiante(object):
     def __init__(self, nombre, carrera, matricula, dinero, materias):
-        # Inicializar los atributos nombre y carrera y las variables de Tensorflow necesarias para el agente
+
         self.nombre = nombre
         self.carrera = carrera
         self.materias = materias
@@ -65,7 +65,7 @@ class AgenteEstudiante(object):
 
 class AgenteCajero(object):
     def __init__(self):
-        # Inicializar la variable de Tensorflow necesaria para el agente
+
         self.boleta = 0.0
 
     def cobrar_matricula(self, estudiante):
@@ -94,7 +94,7 @@ class AgenteCajero(object):
 
 class AgenteResponsable(object):
     def __init__(self):
-        # Inicializar la variable de Tensorflow necesaria para el agente
+
         self.materias = []
 
     def habilitar_materias(self, materias):
@@ -111,7 +111,7 @@ class AgenteResponsable(object):
 
 class AgenteDirector(object):
     def __init__(self):
-        # Inicializar las variables de Tensorflow necesarias para el agente
+
         self.materias_inscritas_totales = []
 
     def inscribir_estudiante(self, estudiante):
