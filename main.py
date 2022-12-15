@@ -99,6 +99,7 @@ class AgenteResponsable(object):
 
     def habilitar_materias(self, materias):
         # Lógica para habilitar las materias seleccionadas
+
         time.sleep(random.randint(1, 2))
         print('Agente Responsable: Habilitando materias......')
         self.materias
@@ -115,18 +116,15 @@ class AgenteDirector(object):
         self.materias_inscritas_totales = []
 
     def inscribir_estudiante(self, estudiante):
-        if not estudiante.pagado:
-            return
-        materias = estudiante.materias
-
-        # Lógica para inscribir al estudiante en las materias seleccionadas
-        # Verificar que el estudiante haya realizado el pago
-
+       # Verificar que el estudiante haya realizado el pago
         if not estudiante.pagado:
             time.sleep(random.randint(1, 2))
             print(
                 'Agente Director: El estudiante no ha realizado el pago de la matrícula por lo tanto no puede inscribirse....')
             return
+        materias = estudiante.materias
+        # Lógica para inscribir al estudiante en las materias seleccionadas
+
         if set(materias).issubset(set(materias_habilitadas)):
 
             # Lógica para inscribir al estudiante en las materias seleccionadas
@@ -198,16 +196,3 @@ fin = time.time()
 # Tiempo de ejecucion total
 print('Se tardo ', (fin-inicio)/3, ' minutos en atender a ',
       estudiantes.__len__(), ' estudiantes')
-
-# que tipo de agente se uso en la implementacion de la solucion del problema
-''' En esta implementación se usan agentes reactivos simples. Los agentes reactivos simples se basan en la percepción del entorno actual y en la ejecución de acciones inmediatas en respuesta a esa percepción, sin tener en cuenta el estado del entorno en el futuro. Los agentes reactivos simples no tienen un modelo interno del entorno y no tienen objetivos a largo plazo.
-
-En el caso de esta implementación, cada agente estudiante y cajero reacciona a las acciones realizadas por los otros agentes y realizan sus propias acciones en respuesta a esas acciones. Por ejemplo, cuando un agente cajero recibe un pago de matrícula de un agente estudiante, genera una boleta de pago inmediatamente en respuesta a esa acción. Sin embargo, los agentes no tienen un modelo interno del entorno y no tienen objetivos a largo plazo. '''
-
-
-'''Los agentes utilizados en esta implementación son reactivos simples, ya que se basan en la información disponible en el momento y realizan acciones de manera inmediata en respuesta a esa información. '''
-
-
-# se utilizo la libreria time para medir el tiempo de ejecucion del programa
-# se puso un retraso de 1 a 2 segundo antes de cada print para ver la interecccion de los agentes secuencialmente
-# se dividio el total de tiempo entre 3 para simular una duracion mas realista de la interaccion de agentes
